@@ -3,13 +3,13 @@ import Keys._
 
 object BuildSettings {
   val buildOrganization = "com.corruptmemory"
-  val buildScalaVersion = "2.9.1"
+  val buildScalaVersion = "2.11.7"
   val buildVersion      = "0.3-SNAPSHOT"
 
   lazy val publishSetting = publishTo <<= (version) {
     version: String =>
       val isSnapshot = version.trim.endsWith("SNAPSHOT")
-      val repo   = if(isSnapshot) (Resolver.file("snapshots", file("/"+Path.userHome.toString+"/.ivy2/local")) transactional())
+      val repo   = if(isSnapshot) (Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
                    else (Resolver.file("releases",file("/"+Path.userHome.toString + "/scala-aho-corasick-pages/repository")))
       Some(repo)
   }
@@ -44,11 +44,11 @@ object ShellPrompt {
 }
 
 object Dependencies {
-  val scalaCheckVersion = "1.9"
-  val scalaZVersion = "6.0.2"
+  val scalaCheckVersion = "1.13.1"
+  val scalaZVersion = "7.2.4"
 
   val scalaz = "org.scalaz" %% "scalaz-core" % scalaZVersion
-  val scalaCheck = "org.scala-tools.testing" %% "scalacheck" % scalaCheckVersion % "test"
+  val scalaCheck = "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test"
 }
 
 object MongoDumperBuild extends Build {
